@@ -1,6 +1,5 @@
 import os
 import struct
-import time
 import ctypes
 from .enums import KeyCode, FindDir
 
@@ -73,60 +72,6 @@ class DM:
         print(f"{TAG} 初始化成功: " + 'VER:', self.ver(), ',ID:', self.GetID(), ',PATH:',
               os.path.join(self.GetBasePath(), 'dm.dll'))
 
-        # else:
-        #     self.__reg_as_admin()
-        #     if self.__is_reg:
-        #         print(f"{TAG} 成功注册：" + 'VER:', self.ver(), ',ID:', self.GetID(), ',PATH:',
-        #               os.path.join(self.GetBasePath(), self.dll_prefix))
-        #     else:
-        #         print(f"{TAG} 注册失败：" + time.strftime('%Y-%m-%d-%H:%M:%S',
-        #                                              time.localtime(time.time())) + self.dll_path + "：注册失败")
-
-    def __unreg_as_admin(self) -> None:
-        """
-        删除注册的dll。
-
-        Returns:
-            无返回值。
-        """
-        self.cmd_un_dll = 'regsvr32 /u /s \"' + \
-            os.path.join(self.GetBasePath(), self.dll_prefix) + '\"'
-        if self.__is_admin:
-            os.system(self.cmd_un_dll)
-        else:
-            ctypes.windll.shell32.ShellExecuteW(
-                None, "runas", "cmd.exe", "/C %s" % self.cmd_un_dll, None, 1)
-            time.sleep(3)
-            print(f"{TAG} 删除注册：" + 'VER:', self.ver(), ',ID:', self.GetID(), ',PATH:',
-                  os.path.join(self.GetBasePath(), self.dll_prefix))
-
-    def __reg_as_admin(self) -> None:
-        """
-        注册dll。
-
-        Returns:
-            无返回值。
-        """
-        if self.__is_admin:
-            os.system(self.cmd_dll)
-        else:
-            ctypes.windll.shell32.ShellExecuteW(
-                None, "runas", "cmd.exe", "/C %s" % self.cmd_dll, None, 1)
-            time.sleep(3)
-
-    @property
-    def __is_admin(self) -> bool:
-        """
-        判断是否具有管理员权限。
-
-        Returns:
-            返回bool类型。
-        """
-        try:
-            return ctypes.windll.shell32.IsUserAnAdmin()
-        except Exception:
-            return False
-
     def SetShowErrorMsg(self, show=1):
         return self.__dm.SetShowErrorMsg(show)
 
@@ -165,9 +110,6 @@ class DM:
         -9 : 版本附加信息里包含了非法字母.
         """
         ret: int = self.__dm.Reg(key, code)
-
-        # if ret != 1:
-        # raise NameError("注册收费功能失败")
         return ret
 
     # ----------------------------窗口----------------------------------
@@ -332,27 +274,10 @@ class DM:
             return None
         return ret
 
-    # def UnBindWindow(self) -> int:
-    #     return self.__dm.UnBindWindow()
-
-    # def UnBindWindow(self) -> int:
-    #     return self.__dm.UnBindWindow()
-
-    # def UnBindWindow(self) -> int:
-    #     return self.__dm.UnBindWindow()
-
-    # def UnBindWindow(self) -> int:
-    #     return self.__dm.UnBindWindow()
-
     # ----------------------------图色----------------------------------
+
     def CapturePng(self, x1, y1, x2, y2, file) -> int:
         return self.__dm.CapturePng(x1, y1, x2, y2, file)
-        # if ret == 0:
-        #     error = self.GetLastError()
-        #     # 0 竟然是无错误
-        #     print(f"error {error}")
-        #     return None
-        # return file
 
     def EnableDisplayDebug(self, enabled=0):
         return self.__dm.EnableDisplayDebug(enabled)
@@ -401,7 +326,7 @@ class DM:
                 dir=FindDir.LeftToRightAndTopToBottom) -> int:
         intX = client.VARIANT(-1, 'byref')
         intY = client.VARIANT(-1, 'byref')
-        pic_name = f"images/{pic_name}.bmp"
+        # pic_name = f"images/{pic_name}.bmp"
         ret = self.__dm.FindPic(x1, y1, x2, y2, pic_name, delta_color, sim,
                                 dir.value, intX, intY)
         return handleRet(ret, 0)
@@ -424,7 +349,8 @@ class DM:
         #  const x = new client.Variant(-1, 'byref');
         # const y = new client.Variant(-1, 'byref');
         # return self.__dm.GetCursorPos(x, y)
-        return (1, 2)
+        # return (1, 2)
+        pass
 
     def LeftClick(self) -> int:
         return self.__dm.LeftClick()
