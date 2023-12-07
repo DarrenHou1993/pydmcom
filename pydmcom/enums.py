@@ -62,6 +62,16 @@ class KeyCode(Enum):
 
 @unique
 class FindDir(Enum):
+    """
+    0: 从左到右,从上到下
+    1: 从左到右,从下到上
+    2: 从右到左,从上到下
+    3: 从右到左,从下到上
+    5: 从上到下,从左到右
+    6: 从上到下,从右到左
+    7: 从下到上,从左到右
+    8: 从下到上,从右到左
+    """
     LeftToRightAndTopToBottom = 0
     LeftToRightAndBottomToTop = 1
     RightToLeftAndTopToBottom = 2
