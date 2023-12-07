@@ -34,6 +34,17 @@ class Dispatch(object):
     def GetScreenHeight(self):
         return 1080
 
+    def BindWindowEx(self, hwnd,
+                     display='dx2',
+                     mouse='windows',
+                     keypad='windows',
+                     public='dx',
+                     mode=101):
+        return 1
+
+    def EnableDisplayDebug(self):
+        return 1
+
 
 class VARIANT():
     pass
