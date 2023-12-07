@@ -69,7 +69,7 @@ class DM:
             register_dll.SetDllPathW(DLL_PATH, 0)
             self.__dm = client.Dispatch('dm.dmsoft')
 
-        print(f"{TAG} 初始化成功: " + 'VER:', self.ver(), ',ID:', self.GetID(), ',PATH:',
+        print(f"{TAG} 初始化成功: " + 'VER:', self.Ver(), ',ID:', self.GetID(), ',PATH:',
               os.path.join(self.GetBasePath(), 'dm.dll'))
 
     def SetShowErrorMsg(self, show=1):

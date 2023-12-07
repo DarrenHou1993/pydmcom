@@ -1,7 +1,10 @@
+TAG = '[Dispatch for MAC]'
+
+
 class Dispatch(object):
 
     def __init__(self, name):
-        pass
+        print(f'{TAG} 对接COM组件 {name}')
 
     def SetDict(self, index, path):
         pass
@@ -9,8 +12,14 @@ class Dispatch(object):
     def SetPath(self, path):
         pass
 
-    def Ver(self, ):
+    def Ver(self):
         return '7.2'
+
+    def GetID(self):
+        return 123321
+
+    def GetBasePath(self):
+        return '/usr/base'
 
     def Reg(self, arg1, arg2):
         return 1
