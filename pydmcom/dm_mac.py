@@ -42,9 +42,36 @@ class Dispatch(object):
                      mode=101):
         return 1
 
+    def findWindowEx(self, parent, class_name, title):
+        return [1, 2, 3]
+
+    def SetWindowSize(self, hwnd, width, height):
+        return 1
+
+    def MoveTo(self,  x, y):
+        return 1
+
+    def LeftDown(self):
+        return 1
+
+    def LeftUp(self):
+        return 1
+
     def EnableDisplayDebug(self):
         return 1
 
+    def FindStr(
+            self,
+            x1,
+            y1,
+            x2,
+            y2,
+            string,
+            color='ffffff-000000',
+            sim=1.0):
+        return [1, 2]
+
 
 class VARIANT():
-    pass
+    def __init__(self, type, unit):
+        pass

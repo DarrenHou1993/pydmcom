@@ -76,6 +76,10 @@ class DM:
         return self.__dm.SetShowErrorMsg(show)
 
     # ----------------------------基本设置----------------------------------
+
+    def SetPath(self, path):
+        return self.__dm.SetPath(path)
+
     def GetBasePath(self):
         return self.__dm.GetBasePath()
 
@@ -227,7 +231,6 @@ class DM:
     如果绑定的是dx,要注意不可连续操作dx,中间至少加个10ms的延时,否则可能会导致操作失败.比如绑定图色DX,那么不要连续取色等,键鼠也是一样.
     有些窗口绑定之后必须加一定的延时,否则后台也无效.一般1秒到2秒的延时就足够.
     '''
-        self.hwnd = hwnd
         return self.__dm.BindWindowEx(hwnd, display, mouse, keypad, public,
                                       mode)
 
@@ -244,6 +247,9 @@ class DM:
     # ----------------------------文字识别----------------------------------
     def UseDict(self, index) -> int:
         return self.__dm.UseDict(index)
+
+    def SetDict(self, index, file) -> int:
+        return self.__dm.SetDict(index, file)
 
     # 找字
     def FindStr(
