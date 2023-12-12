@@ -68,8 +68,8 @@ class Dispatch(object):
             y2,
             string,
             color='ffffff-000000',
-            sim=1.0):
-        return [1, 2]
+            sim=1.0, intX=-1, intY=-1):
+        return (0, 12, 12)
 
 
 class VARIANT():
