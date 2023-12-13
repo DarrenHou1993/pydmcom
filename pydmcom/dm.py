@@ -89,6 +89,15 @@ class DM:
     # ----------------------------基本设置----------------------------------
 
     def SetPath(self, path):
+        """
+        简介:
+            设置全局路径,设置了此路径后,所有接口调用中,相关的文件都相对于此路径. 比如图片,字库等.
+        参数定义:
+            path: 路径,可以是相对路径,也可以是绝对路径.
+        返回值:
+            0 : 失败
+            1 : 成功
+        """
         return self.__dm.SetPath(path)
 
     def GetBasePath(self) -> str:
@@ -253,7 +262,8 @@ class DM:
 
     def GetForegroundWindow(self):
         """
-        获取顶层活动窗口,可以获取到按键自带插件无法获取到的句柄\n
+        简介:
+            获取顶层活动窗口,可以获取到按键自带插件无法获取到的句柄
         返回值:
             int: 返回整型表示的窗口句柄
         """
@@ -261,57 +271,86 @@ class DM:
 
     def SetWindowState(self, hwnd, flag):
         """
-        设置窗口的状态\n
-        hwnd 整形数: 指定的窗口句柄
+        简介:
+            设置窗口的状态
+        参数定义:
+            hwnd 整形数: 指定的窗口句柄
 
-        flag 整形数: 取值定义如下
+            flag 整形数: 取值定义如下
+                0 : 关闭指定窗口
 
-        0 : 关闭指定窗口
+                1 : 激活指定窗口
 
-        1 : 激活指定窗口
+                2 : 最小化指定窗口,但不激活
 
-        2 : 最小化指定窗口,但不激活
+                3 : 最小化指定窗口,并释放内存,但同时也会激活窗口.
 
-        3 : 最小化指定窗口,并释放内存,但同时也会激活窗口.
+                4 : 最大化指定窗口,同时激活窗口.
 
-        4 : 最大化指定窗口,同时激活窗口.
+                5 : 恢复指定窗口 ,但不激活
 
-        5 : 恢复指定窗口 ,但不激活
+                6 : 隐藏指定窗口
 
-        6 : 隐藏指定窗口
+                7 : 显示指定窗口
 
-        7 : 显示指定窗口
+                8 : 置顶指定窗口
 
-        8 : 置顶指定窗口
+                9 : 取消置顶指定窗口
 
-        9 : 取消置顶指定窗口
+                10 : 禁止指定窗口
 
-        10 : 禁止指定窗口
+                11 : 取消禁止指定窗口
 
-        11 : 取消禁止指定窗口
+                12 : 恢复并激活指定窗口
 
-        12 : 恢复并激活指定窗口
-
-        13 : 强制结束窗口所在进程.
+                13 : 强制结束窗口所在进程.
+        返回值:
+            0: 失败
+            1: 成功
         """
         return self.__dm.SetWindowState(hwnd, flag)
 
     def FindWindowEx(self, parent: int, class_name: str, title='') -> int:
         """
-        查找符合类名或者标题名的顶层可见窗口,如果指定了parent,则在parent的第一层子窗口中查找.
-        parent 整形数: 父窗口句柄，如果为空，则匹配所有顶层窗口
+        简介:
+            查找符合类名或者标题名的顶层可见窗口,如果指定了parent,则在parent的第一层子窗口中查找.
+        参数定义:
+            parent 整形数: 父窗口句柄，如果为空，则匹配所有顶层窗口
 
-        class 字符串: 窗口类名，如果为空，则匹配所有. 这里的匹配是模糊匹配.
+            class 字符串: 窗口类名，如果为空，则匹配所有. 这里的匹配是模糊匹配.
 
-        title 字符串: 窗口标题,如果为空，则匹配所有. 这里的匹配是模糊匹配.
+            title 字符串: 窗口标题,如果为空，则匹配所有. 这里的匹配是模糊匹配.
+        返回值:
+            int: 整形数表示的窗口句柄，没找到返回0
         """
         return self.__dm.findWindowEx(parent, class_name, title)
 
     # 设置窗口尺寸
     def SetWindowSize(self, hwnd, width, height) -> int:
+        """
+        简介:
+            设置窗口的大小
+        参数定义:
+            hwnd 整形数: 指定的窗口句柄
+
+            width 整形数: 宽度
+
+            height 整形数: 高度
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.SetWindowSize(hwnd, width, height)
 
     def GetWindowTitle(self, hwnd) -> str:
+        """
+        简介:
+            获取窗口的标题
+        参数定义:
+            hwnd 整形数: 指定的窗口句柄
+        返回值:
+            str: 窗口的标题
+        """
         return self.__dm.GetWindowTitle(hwnd)
 
     # 后台绑定窗口
@@ -322,7 +361,7 @@ class DM:
                      keypad='windows',
                      public='dx',
                      mode=101) -> int:
-        '''
+        """
         简介:
             绑定指定的窗口,并指定这个窗口的屏幕颜色获取方式,鼠标仿真模式,键盘仿真模式 高级用户使用.
         返回值:
@@ -332,19 +371,32 @@ class DM:
             绑定dx会比较耗时间,请不要频繁调用此函数.\n
             如果绑定的是dx,要注意不可连续操作dx,中间至少加个10ms的延时,否则可能会导致操作失败.比如绑定图色DX,那么不要连续取色等,键鼠也是一样.\n
             有些窗口绑定之后必须加一定的延时,否则后台也无效.一般1秒到2秒的延时就足够.
-    '''
+        """
         return self.__dm.BindWindowEx(hwnd, display, mouse, keypad, public,
                                       mode)
 
     # 解绑窗口
     def UnBindWindow(self) -> int:
+        """
+        简介:
+            解除绑定窗口,并释放系统资源.一般在OnScriptExit调用
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.UnBindWindow()
 
     def EnableFakeActive(self, enabled=1):
+        """
+        简介:
+            设置是否开启后台假激活功能. 默认是关闭. 一般用不到. 除非有人有特殊需求.
+        参数定义:
+            enable 整形数: 0 关闭 1 开启
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.EnableFakeActive(enabled)
-
-    def EnableIme(self, enabled=1):
-        return self.__dm.EnableIme(enabled)
 
     # ----------------------------文字识别----------------------------------
     def UseDict(self, index) -> int:
@@ -414,6 +466,19 @@ class DM:
     # ----------------------------图色----------------------------------
 
     def CapturePng(self, x1, y1, x2, y2, file) -> int:
+        """
+        简介:
+            同Capture函数，只是保存的格式为PNG.
+        参数定义:
+            x1 整形数:区域的左上X坐标
+            y1 整形数:区域的左上Y坐标
+            x2 整形数:区域的右下X坐标
+            y2 整形数:区域的右下Y坐标
+            file 字符串:保存的文件名,保存的地方一般为SetPath中设置的目录 当然这里也可以指定全路径名.
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.CapturePng(x1, y1, x2, y2, file)
 
     def EnableDisplayDebug(self, enabled=0):
