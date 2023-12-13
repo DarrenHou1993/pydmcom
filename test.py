@@ -11,12 +11,12 @@ regRet = dm.Reg('6008885359e4a0926d85f7483f16735d9fb71b', 'JINXIN')
 print(f"注册结果: {regRet}")
 
 
-# dm.UseDict(0,'')
 RESOURCE_PATH = os.path.abspath(os.path.join(__file__, '../test-resources'))
 
 print(f"资源路径: {RESOURCE_PATH}")
 dm.SetPath(RESOURCE_PATH)
 dm.SetDict(0, r'fonts\font1.txt')
+dm.UseDict(0)
 windows = dm.FindWindowEx(None, 'Chrome_RenderWidgetHostHWND')
 print(f"windows {windows}")
 
