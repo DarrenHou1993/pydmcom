@@ -1,19 +1,22 @@
 from pydmcom import DM
 import os
-
-DM.setDllPath('D:/Program Files/DMSoft/dmsoft.dll')
-DM.setRegisterDllPath('D:/Program Files/DMSoft/dmreg.dll')
-dm = DM()
-print(dm.GetScreenWidth())
-
-
-regRet = dm.Reg('6008885359e4a0926d85f7483f16735d9fb71b', 'JINXIN')
-print(f"注册结果: {regRet}")
-
-
+APP_DATA_PATH = os.path.join(
+    os.path.expanduser('~'),
+    'tiger_debug')
+DLL_LIB_PATH = os.path.join(APP_DATA_PATH, 'libs')
 RESOURCE_PATH = os.path.abspath(os.path.join(__file__, '../test-resources'))
 
 print(f"资源路径: {RESOURCE_PATH}")
+print(f"libs路径: {DLL_LIB_PATH}")
+
+DM.setDllPath(os.path.join(DLL_LIB_PATH, 'dm.dll'))
+DM.setRegisterDllPath(os.path.join(DLL_LIB_PATH, 'RegDll.dll'))
+dm = DM()
+regRet = dm.Reg('6008885359e4a0926d85f7483f16735d9fb71b', 'JINXIN')
+print(f"注册结果: {regRet}")
+
+print(f"当前屏幕的分辨率是 {dm.GetScreenWidth()}, {dm.GetScreenHeight()}")
+
 dm.SetPath(RESOURCE_PATH)
 dm.SetDict(0, r'fonts\font1.txt')
 dm.UseDict(0)

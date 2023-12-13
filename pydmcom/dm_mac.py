@@ -7,7 +7,10 @@ class Dispatch(object):
         print(f'{TAG} 对接COM组件 {name}')
 
     def SetDict(self, index, path):
-        pass
+        return 1
+
+    def UseDict(self, index):
+        return 1
 
     def SetPath(self, path):
         pass
