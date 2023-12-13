@@ -33,6 +33,7 @@ class DM:
             dll_path: dm.dll的绝对路径
         """
         DLL_PATH = dll_path
+        print(f"{TAG} set dll path {DLL_PATH}")
 
     @staticmethod
     def setRegisterDllPath(register_dll_path: str):
@@ -43,6 +44,7 @@ class DM:
             register_dll_path: RegDll.dll的绝对路径
         """
         REGISTER_DLL_PATH = register_dll_path
+        print(f"{TAG} set register dll path {REGISTER_DLL_PATH}")
 
     @staticmethod
     def checkEnv() -> bool:
