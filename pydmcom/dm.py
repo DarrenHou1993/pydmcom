@@ -12,12 +12,12 @@ else:
 DLL_PATH = None
 REGISTER_DLL_PATH = None
 
-TAG = '[DM]'
+TAG = '[pydmcom]'
 
 
 def handleRet(ret, ok_value=1):
     h_ret, *values = ret
-    # print(f"values {h_ret} {values}")
+    print(f"values {h_ret} {values}")
     if h_ret != ok_value:
         return None
     return values
@@ -27,7 +27,9 @@ class DM:
     @staticmethod
     def setDllPath(dll_path: str):
         """
-         Args:
+        设置Dll文件的路径
+
+        参数:
             dll_path: dm.dll的绝对路径
         """
         DLL_PATH = dll_path
@@ -35,7 +37,9 @@ class DM:
     @staticmethod
     def setRegisterDllPath(register_dll_path: str):
         """
-         Args:
+        设置注册Dll文件的路径
+
+        参数:
             register_dll_path: RegDll.dll的绝对路径
         """
         REGISTER_DLL_PATH = register_dll_path
@@ -344,9 +348,29 @@ class DM:
 
     # ----------------------------文字识别----------------------------------
     def UseDict(self, index) -> int:
+        """
+        简介:
+            表示使用哪个字库文件进行识别(index范围:0-9) 设置之后，永久生效，除非再次设定
+        参数定义:
+            index 整形数:字库编号(0-9)
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.UseDict(index)
 
     def SetDict(self, index, file) -> int:
+        """
+        简介:
+            设置字库文件
+        参数定义:
+            index 整形数:字库的序号,取值为0-9,目前最多支持10个字库
+
+            file 字符串:字库文件名
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.SetDict(index, file)
 
     # 找字
@@ -360,6 +384,10 @@ class DM:
         color='ffffff-000000',
         sim=1.0,
     ) -> int:
+        """
+        简介:
+            在屏幕范围(x1,y1,x2,y2)内,查找string(可以是任意个字符串的组合),并返回符合color_format的坐标位置,相似度sim同Ocr接口描述.
+        """
         intX = client.VARIANT(-1, 'byref')
         intY = client.VARIANT(-1, 'byref')
         ret = self.__dm.FindStr(x1, y1, x2, y2, string, color, sim, intX, intY)
@@ -372,7 +400,12 @@ class DM:
             y2,
             color_format='ffffff-000000',
             sim=1.0) -> str:
+        """
+        简介:
+            识别屏幕范围(x1,y1,x2,y2)内符合color_format的字符串,并且相似度为sim,sim取值范围(0.1-1.0),
 
+            这个值越大越精确,越大速度越快,越小速度越慢,请斟酌使用!
+        """
         ret = self.__dm.Ocr(x1, y1, x2, y2, color_format, sim)
         if not ret:
             return None
@@ -384,12 +417,45 @@ class DM:
         return self.__dm.CapturePng(x1, y1, x2, y2, file)
 
     def EnableDisplayDebug(self, enabled=0):
+        """
+        简介:
+            开启图色调试模式，此模式会稍许降低图色和文字识别的速度.默认不开启.
+        参数定义:
+            enabled 整形数: 0:关闭调试模式,1:开启调试模式
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.EnableDisplayDebug(enabled)
 
     def CapturePre(self, file) -> int:
+        """
+        简介:
+            抓取上次操作的图色区域，保存为file(24位位图)
+        参数定义:
+            file 字符串: 保存的图片文件名
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.CapturePre(file)
 
     def CmpColor(self, x, y, color, sim) -> int:
+        """
+        简介:
+            比较指定坐标点(x,y)的颜色
+        参数定义:
+            x 整形数: X坐标
+
+            y 整形数: Y坐标
+
+            color 字符串: 颜色字符串,可以支持偏色,多色,例如 "ffffff-202020|000000-000000" 这个表示白色偏色为202020,和黑色偏色为000000.颜色最多支持10种颜色组合. 注意，这里只支持RGB颜色.
+
+            sim 双精度浮点数: 相似度(0.1-1.0)
+        返回值:
+            0: 匹配
+            1: 不匹配
+        """
         return self.__dm.CmpColor(x, y, color, sim)
 
     def FindColor(self,
@@ -400,6 +466,10 @@ class DM:
                   color,
                   sim=1.0,
                   dir=FindDir.LeftToRightAndTopToBottom):
+        """
+        简介:
+            查找指定区域内的颜色,颜色格式"RRGGBB-DRDGDB",注意,和按键的颜色格式相反
+        """
         intX = client.VARIANT(-1, 'byref')
         intY = client.VARIANT(-1, 'byref')
         ret = self.__dm.FindColor(x1, y1, x2, y2, color, sim, dir.value, intX,
@@ -485,31 +555,105 @@ class DM:
 
     # ----------------------------系统----------------------------------
     def SetScreen(self, width, height, depth) -> int:
+        """
+        简介:
+            获取屏幕的高度.
+        参数定义:
+            width 整形数: 屏幕的宽度
+            height 整形数: 屏幕的高度
+            depth 整形数: 屏幕的色深度.(16或者32等)
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.SetScreen(width, height, depth)
 
     def GetScreenHeight(self, ) -> int:
+        """
+        简介:
+            获取屏幕的高度.
+        返回值:
+            int 返回屏幕的高度
+        """
         return self.__dm.GetScreenHeight()
 
     def GetScreenWidth(self, ) -> int:
+        """
+        简介:
+            获取屏幕的宽度.
+        返回值:
+            int 返回屏幕的宽度
+        """
         return self.__dm.GetScreenWidth()
 
     def GetScreenDepth(self, ) -> int:
+        """
+        简介:
+            获取屏幕的色深.
+        返回值:
+            int 返回系统颜色深度.(16或者32等)
+        """
         return self.__dm.GetScreenDepth()
 
-    def GetDiskSerial(self, ) -> int:
+    def GetDiskSerial(self, ) -> str:
+        """
+        简介:
+            获取本机的硬盘序列号.支持ide scsi硬盘. 要求调用进程必须有管理员权限. 否则返回空串.
+        返回值:
+            str 字符串表达的硬盘序列号
+        """
         return self.__dm.GetDiskSerial()
 
-    def GetMachineCode(self, ) -> int:
+    def GetMachineCode(self, ) -> str:
+        """
+        简介:
+            获取本机的机器码.(带网卡). 此机器码用于插件网站后台. 要求调用进程必须有管理员权限. 否则返回空串.
+        返回值:
+            str 字符串表达的机器机器码
+        """
         return self.__dm.GetMachineCode()
 
     def GetMachineCodeNoMac(self, ) -> int:
+        """
+        简介:
+            获取本机的机器码.(不带网卡) 要求调用进程必须有管理员权限. 否则返回空串.
+        返回值:
+            str 字符串表达的机器机器码
+        """
         return self.__dm.GetMachineCodeNoMac()
 
     def GetOsType(self, ) -> int:
+        """
+        简介:
+            得到操作系统的类型
+        返回值:
+            0 : win95/98/me/nt4.0
+
+            1 : xp/2000
+
+            2 : 2003
+
+            3 : win7/vista/2008
+        """
         return self.__dm.GetOsType()
 
     def CheckFontSmooth(self, ) -> int:
+        """
+        简介:
+            检测当前系统是否有开启屏幕字体平滑
+        返回值:
+           0 : 系统没开启平滑字体.
+
+           1 : 系统有开启平滑字体.
+        """
         return self.__dm.CheckFontSmooth()
 
     def DisableFontSmooth(self, ) -> int:
+        """
+        简介:
+            关闭当前系统屏幕字体平滑.同时关闭系统的ClearType功能.
+        返回值:
+            0: 失败
+            1: 成功
+        """
         return self.__dm.DisableFontSmooth()
