@@ -543,19 +543,6 @@ class DM:
                                   intY)
         return handleRet(ret)
 
-    def GetColorNum(self, x1,
-                    y1,
-                    x2,
-                    y2,
-                    color,
-                    sim=1.0):
-        return self.__dm.GetColorNum(x1,
-                                     y1,
-                                     x2,
-                                     y2,
-                                     color,
-                                     sim)
-
     def FindPic(self,
                 x1,
                 y1,
