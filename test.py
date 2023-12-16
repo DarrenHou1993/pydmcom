@@ -53,5 +53,14 @@ dm.LeftUp()
 
 position = dm.FindStr(304,26,350,49, '清除','b9b9b9-222222')
 print(f"找字的坐标 {position}")
+
+
+image_position = dm.FindPic(309,4,344,30,"images/clear.bmp")
+print(f"找图的坐标 {image_position}")
+
+filename = os.path.join(RESOURCE_PATH,"capture",'pre.bmp')
+print(f"file path {filename}")
+path = dm.CapturePre(filename)
+print(f"capture path ret {path}")
 # 348,31,380,47,宽高(32,16) 清除
 # 高度80后可以绘画
