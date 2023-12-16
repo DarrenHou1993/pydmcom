@@ -445,6 +445,7 @@ class DM:
         intX = client.VARIANT(-1, 'byref')
         intY = client.VARIANT(-1, 'byref')
         ret = self.__dm.FindStr(x1, y1, x2, y2, string, color, sim, intX, intY)
+        print(f"find str result {ret}")
         return handleRet(ret, 0)
 
     def Ocr(self,
